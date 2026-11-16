@@ -1,0 +1,245 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --color-ink-950: #050505;
+  --color-ink-900: #0A0A0A;
+  --color-ink-800: #141414;
+  --color-ink-700: #1B1B1B;
+  --color-ink-600: #262626;
+  --color-ink-500: #3A3A3A;
+  /* WARNA UTAMA (biru). Ganti angka hex di sini kalau mau nuansa biru lain. */
+  --color-brand-50: #EEF4FF;
+  --color-brand-100: #D9E6FF;
+  --color-brand-300: #8EB8FF;
+  --color-brand-400: #5B97FF;
+  --color-brand-500: #2F6BFF;
+  --color-brand-600: #1F52DB;
+  --color-brand-700: #173FAE;
+  --color-brand-800: #122F80;
+  --color-mist-300: #D0D0D0;
+  --color-mist-400: #A3A3A3;
+  --color-mist-500: #737373;
+}
+
+@layer base {
+  button:not(:disabled), [role="button"]:not(:disabled) { cursor: pointer; }
+}
+
+html, body { background: #050505; }
+body { overflow-x: hidden; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+:focus-visible { outline: 2px solid #8EB8FF; outline-offset: 3px; }
+
+/* ---------- Navbar pill kaca ---------- */
+.nav-pill {
+  background: linear-gradient(90deg, rgba(255,255,255,.11) 0%, rgba(255,255,255,.04) 38%, rgba(8,8,8,.62) 100%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid rgba(255,255,255,.20);
+  box-shadow: 0 14px 34px rgba(0,0,0,.55);
+}
+.nav-active { position: relative; }
+.nav-active::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -7px; height: 2px; border-radius: 2px;
+  background: #2F6BFF;
+}
+
+/* ---------- Hero ---------- */
+.seats {
+  width: 100%; height: 100%;
+  background-image: radial-gradient(ellipse 20px 26px at 50% 48%, #1e46a8 0 58%, transparent 66%);
+  background-size: 54px 62px;
+  transform: perspective(520px) rotateX(58deg);
+  transform-origin: 50% 100%;
+  filter: blur(4px);
+  -webkit-mask-image: linear-gradient(to top, #000 8%, transparent 88%);
+  mask-image: linear-gradient(to top, #000 8%, transparent 88%);
+}
+.search-pill {
+  background: linear-gradient(90deg, rgba(47,107,255,.16), rgba(255,255,255,.02) 50%, rgba(47,107,255,.16));
+  border: 1px solid rgba(47,107,255,.60);
+}
+.search-pill:focus-within { border-color: #5B97FF; }
+
+.social-badge {
+  display: inline-flex; align-items: center; gap: .5rem; line-height: 1; color: #fff;
+  background: #000; border: 1px solid rgba(255,255,255,.78); border-radius: .6rem; padding: .36rem .8rem;
+  transition: background-color .2s, border-color .2s;
+}
+.social-badge:hover { background: #10172b; border-color: #8EB8FF; }
+.social-badge small { display: block; font-size: .5rem; font-weight: 500; opacity: .85; }
+.social-badge b { display: block; margin-top: 2px; font-size: .82rem; font-weight: 700; }
+
+/* tumpukan poster game (auto-rotate) */
+.stack { position: relative; width: min(58vw, 272px); aspect-ratio: 2/3; }
+.stack-card {
+  position: absolute; inset: 0; border-radius: 18px; overflow: hidden; cursor: pointer;
+  transition: transform .85s cubic-bezier(.22,1,.36,1), opacity .85s ease, box-shadow .85s ease, filter .85s ease;
+  will-change: transform;
+}
+.stack-card[data-pos="0"] { transform: translate(0,0) scale(1); z-index: 4; opacity: 1;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.35); }
+.stack-card[data-pos="1"] { transform: translate(24%,-9%) scale(.93); z-index: 3; opacity: .96; filter: brightness(.78); }
+.stack-card[data-pos="2"] { transform: translate(44%,-17%) scale(.86); z-index: 2; opacity: .85; filter: brightness(.6); }
+.stack-card:not([data-pos="0"]):not([data-pos="1"]):not([data-pos="2"]) {
+  transform: translate(44%,-17%) scale(.8); z-index: 1; opacity: 0; pointer-events: none;
+}
+.poster-fx {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(60% 40% at 80% 18%, rgba(255,255,255,.24), transparent 70%),
+    repeating-linear-gradient(115deg, rgba(255,255,255,.07) 0 2px, transparent 2px 15px),
+    linear-gradient(to top, rgba(0,0,0,.55), transparent 55%);
+}
+.plat {
+  font-size: 10px; font-weight: 800; letter-spacing: .08em; color: #fff;
+  border: 1px solid rgba(255,255,255,.65); border-radius: 5px; padding: 1px 7px; background: rgba(0,0,0,.25);
+}
+
+/* ---------- Panel "Konsol" ---------- */
+.screen-panel {
+  position: relative; border-radius: 28px;
+  background:
+    radial-gradient(85% 70% at 0% 100%, rgba(47,107,255,.44), transparent 62%),
+    radial-gradient(70% 62% at 100% 100%, rgba(47,107,255,.34), transparent 62%),
+    radial-gradient(60% 40% at 50% 0%, rgba(47,107,255,.12), transparent 70%),
+    #05080f;
+  border: 1px solid rgba(47,107,255,.40);
+}
+.notch {
+  position: absolute; top: -1px; right: -1px; z-index: 5; background: #050505;
+  min-width: min(22rem, 68vw); text-align: center;
+  padding: .85rem 1.5rem 1rem 1.9rem;
+  border-bottom-left-radius: 26px; border-top-right-radius: 28px;
+  border-left: 1px solid rgba(47,107,255,.40); border-bottom: 1px solid rgba(47,107,255,.40);
+}
+.notch::before {
+  content: ""; position: absolute; top: 1px; left: -24px; width: 24px; height: 24px;
+  background: radial-gradient(circle at 0 100%, transparent 23.5px, #050505 24px);
+}
+.side-arrow { position: absolute; top: 52%; z-index: 6; transform: translateY(-50%); color: #5B97FF; padding: .5rem; transition: color .2s, opacity .2s; }
+.side-arrow[aria-disabled="true"] { color: rgba(255,255,255,.35); pointer-events: none; }
+
+.cons-w { width: 16rem; flex-shrink: 0; }
+@media (min-width: 640px)  { .cons-w { width: 18rem; } }
+@media (min-width: 1024px) { .cons-w { width: calc((100% - 2 * 3rem) / 3); } }
+
+/* kartu konsol & kartu ruangan */
+.cons-card {
+  display: flex; flex-direction: column; height: 100%; border-radius: 18px; overflow: hidden;
+  background: rgba(9,13,26,.82); border: 1px solid rgba(255,255,255,.10);
+}
+.cons-art { position: relative; min-height: 10.5rem; padding: 1rem; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
+.cons-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.cons-shade { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.72), rgba(0,0,0,.05) 62%); }
+.cons-ghost {
+  position: absolute; right: .7rem; top: .2rem; font-size: 4.6rem; font-weight: 900; line-height: 1;
+  color: #fff; opacity: .13; pointer-events: none; letter-spacing: -.02em;
+}
+.cons-badge {
+  position: relative; align-self: flex-start; border-radius: 9999px; background: rgba(255,255,255,.16);
+  padding: .15rem .65rem; font-size: 10px; font-weight: 700; letter-spacing: .06em; color: #fff;
+}
+.price-big { font-size: 1.1rem; font-weight: 800; line-height: 1.1; }
+.spec-list { display: flex; flex-direction: column; gap: .1rem; }
+.spec-list li { display: flex; gap: .55rem; font-size: 12px; line-height: 1.45; color: rgba(255,255,255,.86); padding: .22rem 0; }
+.spec-list li::before {
+  content: ""; flex: none; width: .95rem; height: .95rem; margin-top: .08rem; border-radius: 50%;
+  background: rgba(47,107,255,.28) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238EB8FF' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12 5 5L20 7'/%3E%3C/svg%3E") center/62% no-repeat;
+}
+
+/* ---------- Panel "Kategori Ruangan" ---------- */
+.gallery-panel {
+  background: linear-gradient(208deg, rgba(128,128,128,.55) 0%, rgba(52,52,52,.92) 26%, #0b0b0b 68%);
+  border: 1px solid rgba(255,255,255,.10); border-top-color: rgba(255,255,255,.30);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.12);
+}
+.room-w { width: 17rem; flex-shrink: 0; }
+@media (min-width: 1024px) { .room-w { width: 19rem; } }
+
+/* ---------- Coverflow "Info & Promo" ---------- */
+.flow { display: grid; justify-items: center; overflow-x: clip; touch-action: pan-y; padding-block: .5rem; }
+.deal {
+  --o: 0; --a: 0;
+  grid-area: 1/1; width: min(80vw, 560px); cursor: pointer;
+  transform: translateX(calc(var(--o) * (96% + 18px))) scale(calc(1 - var(--a) * .12));
+  opacity: calc(1 - var(--a) * .38);
+  filter: brightness(calc(1 - var(--a) * .28));
+  transition: transform .7s cubic-bezier(.22,1,.36,1), opacity .7s ease, filter .7s ease;
+}
+.deal.is-active { cursor: default; }
+.deal-card { border-radius: 20px; background: #131313; border: 1px solid rgba(255,255,255,.08); padding: 10px 10px 20px; }
+.deal-media { position: relative; overflow: hidden; border-radius: 14px; aspect-ratio: 16/9; display: flex; flex-direction: column; justify-content: center; gap: .4rem; padding: 1.25rem 1.75rem; }
+
+/* ---------- Tentang Kami ---------- */
+.about-card {
+  position: relative; border-radius: 28px;
+  background:
+    radial-gradient(60% 90% at 0% 0%, rgba(255,255,255,.12), transparent 60%),
+    linear-gradient(100deg, #0F2F8C 0%, #1F55D8 52%, #3B82FF 100%);
+}
+.about-chip {
+  display: flex; align-items: center; gap: .75rem; border-radius: 14px; padding: .9rem 1.1rem;
+  background: rgba(6,20,84,.36); border: 1px solid rgba(140,180,255,.34);
+  font-size: .8125rem; font-weight: 600; color: #fff;
+}
+.about-line { height: 3px; border-radius: 3px; background: linear-gradient(90deg, rgba(255,255,255,.95), #fff 60%, rgba(255,255,255,.6)); }
+
+/* ---------- Kontak ---------- */
+.news-card {
+  background: radial-gradient(120% 110% at 85% 22%, rgba(196,196,196,.58) 0%, rgba(112,112,112,.58) 36%, rgba(38,38,38,.96) 76%), #1a1a1a;
+  border: 1px solid rgba(255,255,255,.14);
+}
+.loc-row { border-radius: 9999px; background: #1a1a1a; border: 1px solid rgba(255,255,255,.08); }
+.field {
+  width: 100%; border-radius: 9999px; background: rgba(255,255,255,.92); padding: .6rem 1.1rem;
+  font-size: .8125rem; color: #171717; outline: none; border: 2px solid transparent;
+}
+.field:focus { border-color: #2F6BFF; }
+.field::placeholder { color: #737373; }
+
+/* ---------- Footer ---------- */
+.footer-panel { background: #1a1a1a; }
+
+/* ---------- Kartu poster game ---------- */
+.poster {
+  position: relative; aspect-ratio: 2/3; border-radius: 16px; overflow: hidden;
+  border: 1px solid rgba(255,255,255,.12); transition: transform .25s ease, box-shadow .25s ease;
+}
+.poster:hover { transform: translateY(-4px); box-shadow: 0 0 0 1px rgba(255,255,255,.3); }
+.chip {
+  border-radius: 9999px; border: 1px solid rgba(255,255,255,.22); padding: .4rem 1rem;
+  font-size: .8125rem; font-weight: 600; color: rgba(255,255,255,.85); background: rgba(255,255,255,.04);
+  transition: background-color .2s, border-color .2s;
+}
+.chip:hover { border-color: #5B97FF; }
+.chip[aria-pressed="true"] { background: #2F6BFF; border-color: #2F6BFF; color: #fff; }
+
+/* ---------- Admin ---------- */
+.afield {
+  width: 100%; border-radius: .75rem; background: #0f1320; color: #fff; padding: .6rem .85rem;
+  font-size: .875rem; border: 1px solid rgba(255,255,255,.14); outline: none;
+}
+.afield:focus { border-color: #5B97FF; }
+.afield::placeholder { color: rgba(255,255,255,.38); }
+.dropzone { border: 2px dashed rgba(255,255,255,.25); border-radius: 1rem; transition: border-color .2s, background-color .2s; }
+.dropzone.is-over { border-color: #5B97FF; background: rgba(47,107,255,.12); }
+
+@layer components {
+  .btn-solid   { @apply flex items-center justify-center gap-2 rounded-full bg-brand-500 py-2 text-xs font-semibold text-white transition-colors hover:bg-brand-600; }
+  .btn-outline { @apply flex items-center justify-center gap-2 rounded-full border border-brand-500/60 py-2 text-xs font-semibold text-white transition-colors hover:bg-brand-500/10; }
+  .btn-lg      { @apply flex items-center justify-center gap-2 rounded-full bg-brand-500 px-7 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-600; }
+  .round-btn   { @apply grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white text-black transition hover:bg-white/90; }
+  .round-btn[aria-disabled="true"] { @apply bg-white/25 text-white/70 pointer-events-none; }
+  .contact-pill{ @apply inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.07] px-4 py-2 text-xs font-medium text-white underline underline-offset-2 transition-colors hover:bg-white/10; }
+  .foot-link   { @apply text-[13px] font-medium text-white/90 transition-colors hover:text-brand-300; }
+  .abtn        { @apply inline-flex items-center justify-center gap-2 rounded-xl bg-brand-500 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-600 disabled:opacity-50; }
+  .abtn-ghost  { @apply inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 px-4 py-2 text-sm font-semibold text-white/90 transition-colors hover:bg-white/10; }
+  .abtn-danger { @apply inline-flex items-center justify-center gap-2 rounded-xl border border-red-400/40 px-4 py-2 text-sm font-semibold text-red-300 transition-colors hover:bg-red-500/15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stack-card, .deal, .poster { transition: none; }
+}
